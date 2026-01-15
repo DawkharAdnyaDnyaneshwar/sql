@@ -1,0 +1,99 @@
+<!-- Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number. 
+
+Comparison operators such as LIKE, equal to(=), greater than(>) help us fetch data for such queries.
+
+Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. -->
+
+
+
+name	      category	price	 brand	 rating
+Black Shirt	  Clothing	900	     Puma	 4.8
+---	          ---	    ---	     ---	--- 
+
+
+<!-- Questions -->
+
+<!-- 1.
+Get all the products whosepriceis less than or equal to 1000. -->
+
+SELECT
+  *
+FROM
+  product
+WHERE
+  price <= 1000;
+
+
+<!-- 2.
+Get all the best rated products.
+Note: Products whoseratingis above 4.0 are considered as best rated products. -->
+
+SELECT
+  *
+FROM
+  product
+WHERE
+  rating > 4.0;
+
+
+<!-- 3.
+Get all details of products from the "Puma" brand. -->
+
+SELECT
+  *
+FROM
+  product
+WHERE
+  brand LIKE "Puma";
+
+
+<!-- 4.
+User would like to shop for "Jeans". A common pattern in all the jeans products is that theirname ends with "Jeans". Help the user get the details of required products. -->
+
+SELECT
+  *
+FROM
+  product
+WHERE
+  name LIKE "%Jeans";
+
+
+<!-- 5.
+User wants to purchase "Bourbon Small", "Bourbon With Extra Cookies", or products from bourbon. Retrieve all details of such products accordingly. 
+
+Hint: All the product whosenamestarts with "Bourbon". -->
+
+SELECT
+  *
+FROM
+  product
+WHERE
+  name LIKE "Bourbon%";
+
+
+
+<!-- 6.
+List all the "Chips" in the database.
+Note: Consider the products that have "Chips" in thename. -->
+
+SELECT
+  *
+FROM
+  product
+WHERE
+  name LIKE "%Chips%";
+
+
+
+<!-- 7.
+Get the products whosenamematches the following pattern:
+name ends with at least four characters,
+Out of the last 4 characters, first character is "h" and the third character is "r". -->
+
+
+SELECT
+  *
+FROM
+  product
+WHERE
+  name LIKE "%h_r_";
