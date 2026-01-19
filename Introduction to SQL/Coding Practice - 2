@@ -1,0 +1,106 @@
+<!-- The database consists of aplayertable that stores thename,ageandscoreof players. 
+In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.
+
+This practice set helps you get a hang of all such queries. Let’s dive in! -->
+
+<!-- Questions -->
+<!-- 1.
+A new player has joined the tournament. Write an SQL query to add the the following details to the player table.
+
+name	age	score
+Raj	    26	120 -->
+
+INSERT INTO
+  player (name, age, score)
+VALUES
+  ("Raj", 26, 120);
+
+
+<!-- 2.
+Three new players have joined the tournament.
+Write a SQL query to add the the following details of players to theplayertable.
+
+name	age	score
+Ram	    28	125
+Charan	25	173
+Ravan	20	152 -->
+
+INSERT INTO
+  player (name, age, score)
+VALUES
+  ("Ram", 28, 125),
+  ("Charan", 25, 173),
+  ("Ravan", 20, 152);
+
+
+<!-- 3.
+Get all the details of the players from the player table.
+
+Expected Output Format:
+
+name	age	score
+Ram	    24	10
+Suresh	21	9
+---	    ---	--- -->
+
+SELECT
+  *
+FROM
+  player;
+
+
+<!-- 4.
+Update the age of "Shyam" to 30 in the player table.
+Note: In this table, we can identify a player by name. -->
+
+UPDATE
+  player
+SET
+  age = 30
+WHERE
+  name = "Shyam";
+
+
+
+<!-- 5.
+Delete player "David" from the player table.
+Note: In this table, we can identify a player by name. -->
+
+DELETE FROM
+  player
+WHERE
+  name = "David";
+
+
+<!-- 6.
+We have to store thestrike_rateof players in the database. Make necessary changes to the existing player table to store the data.
+Note: Name the column as strike_rate. It is measured in decimals. -->
+
+ALTER TABLE
+  player
+ADD
+  strike_rate FLOAT;
+
+
+<!-- 7.
+Getnameandageof all the players from the player table. -->
+
+SELECT
+  name,
+  age
+FROM
+  player;
+
+
+<!-- 8.
+Rename the columnnametofull_namein the player table -->
+
+ALTER TABLE
+  player RENAME COLUMN name TO full_name;
+
+
+
+<!-- 9.
+Deleteplayertable from the database. -->
+
+DROP TABLE player;

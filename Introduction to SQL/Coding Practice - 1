@@ -1,0 +1,108 @@
+<!-- With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data.
+
+Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty. -->
+
+<!-- Questions -->
+
+
+<!-- 1.
+Create astudenttable to store name, age and score of students.
+
+details	datatype
+name	string of max length 200
+age	    integer
+score	integer -->
+
+CREATE TABLE student (name VARCHAR(200), age INT, score INT);
+
+
+<!-- 2.
+In a typical e-commerce application, we need to store the following customer details. Create acustomertable to store the data.
+
+details	       datatype
+customer_id	   integer
+first_name	   string of max length 200
+last_name	   string of max length 200
+date_of_birth  date
+address	       text
+phone_number   integer -->/
+
+CREATE TABLE customer (
+  customer_id INT,
+  first_name VARCHAR(200),
+  last_name VARCHAR(200),
+  date_of_birth DATE,
+  address TEXT,
+  phone_number INT
+);
+
+
+<!-- 3.
+We need to store the details of orders in an e-commerce application. Create anorder_detailstable to store the following details.
+
+details	           datatype
+order_id	       integer
+customer_id	       integer
+order_datetime	   datetime
+shipped_datetime   datetime
+total_amount	   float -->
+
+CREATE TABLE order_details (
+  order_id INT,
+  customer_id INT,
+  order_datetime DATETIME,
+  shipped_datetime DATETIME,
+  total_amount FLOAT
+);
+
+
+<!-- 4.
+We're storing the details of players who are a part of a tournament. The database contains aplayertable that stores the name, age and score of players.
+
+We have to add a new player to theplayertable.
+
+details	value
+name	Ram
+age	    28
+score	30 -->
+
+INSERT INTO
+  PLAYER (name, age, score)
+VALUES
+  ("Ram", 28, 30);
+
+
+<!-- 5.
+The database contains aplayertable that stores the name, age and score of players.
+
+Get all the players from theplayertable in the following format.
+
+Expected Output Format:
+
+name	age	score
+Suresh	21	70
+Venkat	21	43
+---     --- --- -->
+
+SELECT
+  name,
+  age,
+  score
+FROM
+  player;
+
+
+<!--6.
+Get all the details of "Suresh" from theplayertable in the following format.
+
+Expected Output Format:
+
+name	age	score
+Suresh	21	70 -->
+
+SELECT
+  *
+FROM
+  player
+WHERE
+  name = "Suresh";
