@@ -1,21 +1,21 @@
-<!-- In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.
+-- <!-- In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.
 
-The database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored. 
+-- The database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored. 
 
-Note: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player. -->
+-- Note: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player. -->
 
 
-<!-- Questions -->
-<!-- 1.
-Calculate the overall number of boundaries scored by each batsman in the tournament
+-- <!-- Questions -->
+-- <!-- 1.
+-- Calculate the overall number of boundaries scored by each batsman in the tournament
 
-number of boundaries = fours + sixes
+-- number of boundaries = fours + sixes
 
-Note: Output must contain rows in the descending order ofnumber_of_boundaries and name.
+-- Note: Output must contain rows in the descending order ofnumber_of_boundaries and name.
 
-Expected Output Format:
-name	number_of_boundaries
-...	    ... -->
+-- Expected Output Format:
+-- name	number_of_boundaries
+-- ...	    ... -->
 
 SELECT
   name,
@@ -29,14 +29,14 @@ ORDER BY
   name DESC;
 
 
-<!-- 2.
-Get the highest score of each player who played in the year 2006.
+-- <!-- 2.
+-- Get the highest score of each player who played in the year 2006.
 
-Note: Output must contain rows in the descending order ofhighest_score.
+-- Note: Output must contain rows in the descending order ofhighest_score.
 
-Expected Output Format:
-name	highest_score
-...	    ... -->.
+-- Expected Output Format:
+-- name	highest_score
+-- ...	    ... -->.
 
 SELECT
   name,
@@ -51,30 +51,30 @@ ORDER BY
   highest_score DESC;
 
 
-<!-- 3.
-Calculate the strike rate of all the players in every match.
+-- <!-- 3.
+-- Calculate the strike rate of all the players in every match.
 
-strike_rate = (score of the player / no_of_balls)*100
+-- strike_rate = (score of the player / no_of_balls)*100
 
- Note: Strike rate in the output should be a float value.
+--  Note: Strike rate in the output should be a float value.
 
-In SQL, when an integer is divided by another integer, it results in another integer value, i.e, 3/2 = 1 which is an integer instead of 1.5 which is of float type. So we need to convert either the numerator or denominator to float to get more accurate results, i.e 3.0/2 or 3/2.0, to get 1.5 as output.
+-- In SQL, when an integer is divided by another integer, it results in another integer value, i.e, 3/2 = 1 which is an integer instead of 1.5 which is of float type. So we need to convert either the numerator or denominator to float to get more accurate results, i.e 3.0/2 or 3/2.0, to get 1.5 as output.
 
-Let's apply the same while calculating the strike_rate to get accurate results.
+-- Let's apply the same while calculating the strike_rate to get accurate results.
 
-Note
-The use of parentheses allows us to modify the default operator precedence, ensuring operations inside the braces are executed first.
+-- Note
+-- The use of parentheses allows us to modify the default operator precedence, ensuring operations inside the braces are executed first.
 
-(a/b) * 100 : The parentheses prioritize the division operation (a/b), ensuring it's calculated first before multiplying the result by 100.
+-- (a/b) * 100 : The parentheses prioritize the division operation (a/b), ensuring it's calculated first before multiplying the result by 100.
 
-(a * 100)/b : The parentheses prioritize the multiplication operation (a * 100), ensuring it's calculated first before dividing the result by b.
+-- (a * 100)/b : The parentheses prioritize the multiplication operation (a * 100), ensuring it's calculated first before dividing the result by b.
 
  
-Note: Output must contain rows in the descending order of strike_rate
+-- Note: Output must contain rows in the descending order of strike_rate
 
-Expected Output Format:
-name	match	strike_rate
-...	    ...	    ... -->
+-- Expected Output Format:
+-- name	match	strike_rate
+-- ...	    ...	    ... -->
 
 SELECT
   name,
@@ -90,21 +90,21 @@ ORDER BY
   name DESC;
 
 
-<!-- 4.
-Let's generate a performance report for all the players who played in the year 2006.
+-- <!-- 4.
+-- Let's generate a performance report for all the players who played in the year 2006.
 
-Apply the below logic to grade the player's performance.
+-- Apply the below logic to grade the player's performance.
 
-total score	performance report
->= 150	GOOD
-100<=	AVERAGE
-<100	BELOW AVERAGE
-Note: Output must be in the descending order of total_score
+-- total score	performance report
+-- >= 150	GOOD
+-- 100<=	AVERAGE
+-- <100	BELOW AVERAGE
+-- Note: Output must be in the descending order of total_score
 
-Expected Output Format:
+-- Expected Output Format:
 
-name	total_score	badge
-...	    ...	        ... -->
+-- name	total_score	badge
+-- ...	    ...	        ... -->
 
 SELECT
   name,
@@ -124,19 +124,19 @@ ORDER BY
   total_score DESC;
 
 
-<!-- 5.
-For each player, get the number of matches in which their strike rate is less than 80.0, and the number of matches with strike rate greater than or equal to 80.0.
+-- <!-- 5.
+-- For each player, get the number of matches in which their strike rate is less than 80.0, and the number of matches with strike rate greater than or equal to 80.0.
 
-strike_rate = (score of the player / no_of_balls)*100
+-- strike_rate = (score of the player / no_of_balls)*100
 
-Note:
+-- Note:
 
-Strike rate should always be a float value.
-Output must be in the ascending order of name
-Expected Output Format:
+-- Strike rate should always be a float value.
+-- Output must be in the ascending order of name
+-- Expected Output Format:
 
-name	strike_rate_less_than_80	strike_rate_greater_than_or_equal_to_80
-...	    ...	                        ... -->
+-- name	strike_rate_less_than_80	strike_rate_greater_than_or_equal_to_80
+-- ...	    ...	                        ... -->
 
 SELECT
   name,
@@ -158,15 +158,15 @@ ORDER BY
   name ASC;
 
 
-<!-- 6.
-Get all the player/s who played for both CSK and RCB.
+-- <!-- 6.
+-- Get all the player/s who played for both CSK and RCB.
 
-Note: Output must be in the ascending order of name
+-- Note: Output must be in the ascending order of name
 
-Expected Output Format:
+-- Expected Output Format:
 
-name
-... -->
+-- name
+-- ... -->
 
 SELECT
   name
@@ -185,17 +185,17 @@ ORDER BY
   name ASC;
 
 
-<!-- 7.
-Get all the player/s who played only for SRH
+-- <!-- 7.
+-- Get all the player/s who played only for SRH
 
-Note: 
+-- Note: 
 
-Names in the output must be in capital letters.
-Output must be in the ascending order of name
-Expected Output Format:
+-- Names in the output must be in capital letters.
+-- Output must be in the ascending order of name
+-- Expected Output Format:
 
-name
-... -->
+-- name
+-- ... -->
 
 SELECT
   UPPER(name) AS name
@@ -214,17 +214,17 @@ ORDER BY
   name ASC;
 
 
-<!-- 8.
-Get all the player/s who played either for SRH, CSK, or MI.
+-- <!-- 8.
+-- Get all the player/s who played either for SRH, CSK, or MI.
 
-Note: 
+-- Note: 
 
-Get unique players.
-Output must be in the ascending order of name
-Expected Output Format: 
+-- Get unique players.
+-- Output must be in the ascending order of name
+-- Expected Output Format: 
 
-name
-... -->
+-- name
+-- ... -->
 
 SELECT
   DISTINCT name
@@ -236,12 +236,12 @@ ORDER BY
   name;
 
 
-<!-- 9.
-Fetch the name, highest and lowest scores of player/s for the matches in which strike rate is greater than 50.0.
+-- <!-- 9.
+-- Fetch the name, highest and lowest scores of player/s for the matches in which strike rate is greater than 50.0.
 
-Expected Output Format:
-name	highest_score	lowest_score
-...	    ...	            ... -->
+-- Expected Output Format:
+-- name	highest_score	lowest_score
+-- ...	    ...	            ... -->
 
 SELECT
   name,
