@@ -1,0 +1,226 @@
+<!-- Let's try out the questions in this practice set to gain further grip on Views and Subqueries. Here you go!
+
+Database:
+The database stores the sample data of an e-commerce aplication. 
+Here, the database consists ofuser,order_details andproducttables that store the information of users, orders placed, and the products on the platform.
+
+
+A user can place multiple orders.
+An order can be placed by only one user.
+A single order can contain multiple products.
+A product can be included in multiple orders.
+The given database consists of the tables user, product , order_product and order_details. 
+
+Note:
+
+user table
+id	name	age	gender	phone_no	address	                                pincode
+1	Sai	    40	Male	9860XXXXXX	28 , Super Gas Indl. Estate, Maharastra	400068
+2	Boult	20	Male	7328XXXXXX	5454 Interstate, US	                    30154
+...	...	    ...	...	    ...	        ...	                                    ...
+user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode
+
+product table
+product_id	name	                price_per_unit	rating	category	brand
+201	        Biotique Basil Soap	    81	            3.2	    SOAP	    BIPTIQUE
+202	        Biotique Almond Soap	34	            4.5	    SOAP	    BIPTIQUE
+...	        ...	                    ...	            ...	    ...	        ...
+product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.
+
+order_product table
+order_id	product_id	no_of_units
+611	        236	        1
+611	        248	        2
+...	        ...	        ...
+order_producttable stores the data of  order_id, product_id and  no_of_units ordered.
+
+First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1. 
+
+order_details table
+order_id	customer_id	order_date	        shipped_date	    shipped_id	total_amount
+500	        15	        2021-01-09 01:14	2021-01-13 01:14	3052	    2858
+501	        8	        2021-01-26 07:09	2021-01-28 07:09	3086	    5441
+...     	...	        ...	                ...	                ...	        ...
+Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.
+
+Refer the tables in the code playground for a better understanding of the database. -->
+
+<!-- Questions -->
+<!-- 1.
+Create a viewuser_detailsto store the following information of theuser
+
+Columns In View
+id	name	age	gender	pincode
+...	...	    ...	...	    ... -->
+
+CREATE VIEW user_details AS
+SELECT
+  id,
+  name,
+  age,
+  gender,
+  pincode
+FROM
+  user;
+
+<!-- 2.
+Create a viewuser_order_detailsto store the following information of the users and their orders.
+
+Columns In View
+user_id	name	age	gender	pincode	order_id	total_amount
+...	    ...	    ...	...	    ...	    ...	        ... -->
+
+CREATE VIEW user_order_details AS
+SELECT
+  user.id AS user_id,
+  user.name,
+  user.age,
+  user.gender,
+  user.pincode,
+  order_details.order_id,
+  order_details.total_amount
+FROM
+  user
+  INNER JOIN order_details ON user.id = order_details.customer_id;
+
+<!-- 3.
+Get the user_id and pincode of the customers who shopped for more than 50,000 rupees from thelocation_order_detailsview present in the database.
+
+Data in location_order_details View
+user_id	pincode	order_id	total_amount
+...	    ...	    ...	        ...
+Expected Output Format:
+user_id	pincode	total_amount_spent
+...	    ...	    ... -->
+
+SELECT
+  user_id,
+  pincode,
+  SUM(total_amount) AS total_amount_spent
+FROM
+  location_order_details
+GROUP BY
+  user_id
+HAVING
+  total_amount_spent > 50000;
+
+<!-- 4.
+Get the rating variance for every product in the database.
+
+Note:
+Rating variance is the difference between average rating and rating of a product 
+
+Expected Output Format:
+name	rating_variance
+...	    ... -->
+
+SELECT
+  name,
+  (
+    SELECT
+      AVG(rating)
+    FROM
+      product
+  ) - rating AS rating_variance
+FROM
+  product;
+
+<!-- 5.
+Let's now calculate the rating variance of products in the "MOBILE" category.
+
+Note:
+Rating variance is the difference between average rating and rating of a product 
+
+Expected Output Format:
+name	rating_variance
+...	    ... -->
+
+
+SELECT
+  name,
+  (
+    SELECT
+      AVG(rating)
+    FROM
+      product
+    WHERE
+      category = "MOBILE"
+  ) - rating AS rating_variance
+FROM
+  product
+WHERE
+  category = "MOBILE";
+
+<!-- 6.
+Get all the products from the "WATCH" category, where rating is greater than average rating
+
+Expected Output Format:
+name	rating
+...	    ... -->
+
+SELECT
+  name,
+  rating
+FROM
+  product
+WHERE
+  category = "WATCH"
+  AND rating > (
+    SELECT
+      AVG(rating)
+    FROM
+      product
+    WHERE
+      category = "WATCH"
+  );
+
+<!-- 7.
+Get the  users where average amount spent by the user is greater than the average amount spent on all the orders on the platform
+
+Expected Output Format:
+customer_id	avg_amount_spent
+...	        ... -->
+
+SELECT
+  customer_id,
+  AVG(total_amount) AS avg_amount_spent
+FROM
+  order_details
+GROUP BY
+  customer_id
+HAVING
+  avg_amount_spent > (
+    SELECT
+      AVG(total_amount)
+    FROM
+      order_details
+  );
+
+<!-- 8.
+Get order ids in which order consists of mobile (product_ids: 291, 292, 293, 294, 296). Exclude the orders that consists of screen guard (product_ids: 301, 302, 303, 304).
+
+Expected Output Format:
+order\_id
+... -->
+
+SELECT
+  order_id
+FROM
+  order_product
+WHERE
+  order_id IN (
+    SELECT
+      order_id
+    FROM
+      order_product
+    WHERE
+      product_id IN (291, 292, 293, 294, 296)
+  )
+  AND NOT order_id IN (
+    SELECT
+      order_id
+    FROM
+      order_product
+    WHERE
+      product_id IN (301, 302, 303, 304)
+  );
