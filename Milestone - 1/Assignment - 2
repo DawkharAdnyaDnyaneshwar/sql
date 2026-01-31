@@ -1,0 +1,296 @@
+<!-- Project Cont'd
+Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.
+
+You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!
+
+Database
+The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes. 
+
+Note:
+
+channel_user table
+channel_id	user_id	subscribed_datetime
+100	1	2020-12-10 10:30:45
+100	7	2020-10-10 11:30:45
+...	...	...
+channel_usertable stores the data of the channel_ids and their subscribers' user_ids.
+
+First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at2020-12-10 10:30:45
+
+user_likes table
+user_id	video_id	reaction_type	reacted_at
+1	10	LIKE	2020-12-10 10:30:45
+7	10	DISLIKE	2020-10-10 11:30:45
+...	...	...	...
+Similarly, user_likestable stores the data of video_id and the user_ids who reacted to the video.
+
+video_genre table
+video_id	genre_id
+10	201
+10	202
+...	...
+Similarly,video_genretable stores the data of video_id and the ids of the genres that the corresponding video belongs to. -->
+
+
+<!-- Questions -->
+<!-- 1.
+Get the total number of users in the platform as users_count.
+
+ Note: Use USER Table to fetch the data.
+
+Expected Output Format
+
+users_count
+... -->
+
+SELECT
+  COUNT(*) AS users_count
+FROM
+  user;
+
+<!-- 2.
+Get the total number of distinct countries where the users are located. Country of the user is present in theusertable.
+
+Expected Output Format
+countries_count
+... -->
+
+SELECT
+  COUNT(DISTINCT country) AS countries_count
+FROM
+  user;
+
+<!-- 3.
+Get the number of videos uploaded by each channel.
+
+Expected Output Format
+channel_id	videos_count
+...	        ... -->
+
+SELECT
+  channel_id,
+  COUNT(video_id) AS videos_count
+FROM
+  video
+GROUP BY
+  channel_id;
+
+<!-- 4.
+Get the ids of all the channels that have uploaded at least 50 videos.
+
+Note:
+Sort the output in the ascending order of thechannel_id
+Expected Output Format
+channel_id
+... -->
+
+SELECT
+  channel_id
+FROM
+  video
+GROUP BY
+  channel_id
+HAVING
+  COUNT(video_id) >= 50
+ORDER BY
+  channel_id ASC;
+
+<!-- 5.
+For all the videos, represent the number of views in multiples of thousands.
+
+For example, if the number of views of a video is 27,9351, it should be represented as 279.351 in the output.
+
+Note:
+Sort the output in the descending order ofno_of_views_in_thousands, and then in the alphabetical order ofname
+Expected Output Format
+video_id	name	no_of_views_in_thousands
+...	        ...	    ... -->
+
+SELECT
+  video_id,
+  name,
+  (CAST(no_of_views AS FLOAT) / 1000) AS no_of_views_in_thousands
+FROM
+  video
+ORDER BY
+  no_of_views_in_thousands DESC,
+  name ASC;
+
+<!-- 6.
+Find the sum of durations of the videos published by each channel in hours.
+
+Note:
+The output must contain the duration as number of hours.
+Sort the output in the descending order of theno_of_hours
+Expected Output Format
+channel_id	no_of_hours
+...	        ... -->
+
+SELECT
+  channel_id,
+  SUM(CAST(duration_in_secs AS FLOAT) / 3600) AS no_of_hours
+FROM
+  video
+GROUP BY
+  channel_id
+ORDER BY
+  no_of_hours DESC;
+
+<!-- 7.
+Categorise the performance of all the videos released by the “Motivation grid” Channel (id = 350).
+
+Performance of a video is measured based on the number of views of the video.
+
+Categorization
+no_of_views	category
+Less than or equal to 10000	poor
+Greater than 10000 and less than or equal to 100000	average
+Greater than 100000	good
+Note
+Sort the output in the ascending order ofpublished_datetime
+
+Expected Output Format
+name	no_of_views	category
+...	    ...	        ... -->
+
+SELECT
+  name,
+  no_of_views,
+  CASE
+    WHEN no_of_views <= 10000 THEN 'poor'
+    WHEN no_of_views <= 100000 THEN 'average'
+    ELSE 'good'
+  END AS category
+FROM
+  video
+WHERE
+  channel_id = 350
+ORDER BY
+  published_datetime ASC;
+
+<!-- 8.
+Get the number of videos released in each year.
+
+Note:
+For this question, convert theyearin string datatype to INT datatype.
+Sort the output in the ascending order ofyear
+Expected Output Format
+year	no_of_videos
+...	    ... -->
+
+SELECT
+  CAST(strftime('%Y', published_datetime) AS INTEGER) AS year,
+  COUNT(video_id) AS no_of_videos
+FROM
+  video
+GROUP BY
+  year
+ORDER BY
+  year ASC;
+
+<!-- 9.
+For Marvel channel (id = 351), get the number of subscribers added in each month in the year 2020.
+
+Note:
+You can find the subscribed date of a user for a channel in thechannel_usertable.
+For this question, convert themonth_of_yearin string datatype to INT datatype.
+Sort the output in the ascending order of the month.
+Expected Output Format
+month_of_year	no_of_subscribers
+...	            ... -->
+
+SELECT
+  CAST(strftime("%m", subscribed_datetime) AS INTEGER) AS month_of_year,
+  COUNT(user_id) AS no_of_subscribers
+FROM
+  CHANNEL_USER
+WHERE
+  channel_id = 351
+  AND strftime("%Y", subscribed_datetime) = '2020'
+GROUP BY
+  month_of_year
+ORDER BY
+  month_of_year ASC;
+
+<!-- 10.
+Get the number of reactions (likes/dislikes) generated in each hour of the day in the year 2020.
+
+Note:
+For this question, convert thehour_of_dayin string datatype to INT datatype.
+Sort the output in the ascending order ofhour_of_day
+Expected Output Format
+hour_of_day	no_of_reactions
+0	        500
+1	        2450
+..	        ..
+..	        ..
+23	        400 -->
+
+SELECT
+  CAST(strftime('%H', reacted_at) AS INTEGER) AS hour_of_day,
+  COUNT(reaction_type) AS no_of_reactions
+FROM
+  user_likes
+WHERE
+  strftime('%Y', reacted_at) = '2020'
+GROUP BY
+  hour_of_day
+ORDER BY
+  hour_of_day ASC;
+
+<!-- 11.
+Get all the channel_ids that uploaded at least one video in "AI/ML" or "Robotics" technologies between 2018 and 2021. 
+
+Note:
+Consider all the videos that have any of the technologies mentioned above in theirname
+Sort the output in the ascending order ofchannel_id
+Expected Output Format
+channel_id
+... -->
+
+SELECT
+  DISTINCT channel_id
+FROM
+  video
+WHERE
+  (
+    CAST(strftime('%Y', published_datetime) AS INTEGER) BETWEEN 2018
+    AND 2021
+  )
+  AND (
+    name LIKE '%AI/ML%'
+    OR name LIKE '%Robotics%'
+  )
+ORDER BY
+  channel_id ASC;
+
+<!-- 12.
+Get all the channel_ids that uploaded at least 20 videos in "AI/ML", "Cyber Security", "Data Science" or "Robotics" technologies between 2018 and 2021.
+
+Example: If a channel publishes 5 videos in AI/ML, 10 videos in Cyber Security and 5 videos in Data Science, consider the channel.
+
+Note:
+Consider all the videos that have any of the technologies mentioned above in theirname
+Sort the output in the ascending order of channel_id.
+Expected Output Format
+channel_id
+... -->
+
+SELECT
+  channel_id
+FROM
+  video
+WHERE
+  CAST(strftime('%Y', published_datetime) AS INTEGER) BETWEEN 2018
+  AND 2021
+GROUP BY
+  channel_id
+HAVING
+  SUM(
+    name LIKE '%AI/ML%'
+    OR name LIKE '%Cyber Security%'
+    OR name LIKE '%Data Science%'
+    OR name LIKE '%Robotics%'
+  ) >= 20
+ORDER BY
+  channel_id ASC;
